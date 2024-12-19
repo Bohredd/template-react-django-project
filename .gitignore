@@ -2,3 +2,5 @@
 /env/
 /virtualenv/
 .env
+*.pyc
+*.idea
