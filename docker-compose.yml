@@ -77,23 +77,24 @@ services:
     networks:
       - backend
 
-  expo-mobile:
-    image: node:22.11.0
-    working_dir: ./mobile
+  expo:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    container_name: expo-react-native
+    working_dir: /app
     volumes:
-      - ./mobile:/app
+      - ./mobile/volume:/app
     ports:
       - "19000:19000"
       - "19001:19001"
       - "19002:19002"
-    depends_on:
-      - <projeto>-db
-      - django
-    networks:
-      - backend
     environment:
-      - SERVICE=mobile
-    command: ["npx", "expo", "start"]
+      - EXPO_DEVTOOLS_LISTEN=0.0.0.0
+    stdin_open: true
+    tty: true
+    command: ["npx", "expo", "start", "--tunnel"]
+
 
 volumes:
   postgres_data:  
